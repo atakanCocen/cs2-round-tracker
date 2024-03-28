@@ -70,9 +70,8 @@ MongoClient.connect(dbUrl)
         });
         
         app.get('/main.css',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/assets/css/main.css',{}); 
+            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/assets/css/main.css',{}); 
         });
-
         
         app.listen(port, () => {
             console.log(`Server running at http://localhost:${port}`);
