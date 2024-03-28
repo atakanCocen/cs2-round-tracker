@@ -12,5 +12,3 @@ document.getElementById('incrementBtn').addEventListener('click', () => {
         console.error('Error:', error);
     });
 });
-
-
