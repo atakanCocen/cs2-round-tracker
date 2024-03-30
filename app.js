@@ -84,9 +84,12 @@ MongoClient.connect(dbUrl)
         });
         
         app.get('/main.css',function(req,res){
+<<<<<<< HEAD
             res.sendFile(__dirname + '/public/assets/css/main.css',{}); 
+=======
+            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/assets/css/main.css',{}); 
+>>>>>>> 6ee8b8949330484f13ec0f83eda842a30035a462
         });
-
         
         app.listen(port, () => {
             console.log(`Server running at http://localhost:${port}`);
