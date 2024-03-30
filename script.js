@@ -31,6 +31,31 @@ for (let i = 0; i < winBtns.length; i++){
     });
 }
 
+var lossBtns = document.getElementsByClassName('lossBtn');
+for (let i = 0; i < lossBtns.length; i++){
+    lossBtns[i].addEventListener("click", (event) => {
+        fetch('/loss?' + new URLSearchParams(
+            {
+                map: mapSelection
+            }), 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/javascript',
+            },
+    
+        })
+        .then(res => {
+            console.log('Response: ' + res);
+            res.json()
+        })
+        .then(data => console.log('Success:', data))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+}
+
 //document.getElementById('incrementBtn').addEventListener('click', () => {
 //    fetch('/increment?' + new URLSearchParams(
 //        {
