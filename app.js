@@ -18,8 +18,22 @@ MongoClient.connect(dbUrl)
         
         // Endpoint to increment counter
         app.post('/increment', (req, res) => {
+            let map = '';
+
+            switch (req.query.map){
+                case 'mapSelectionAnubis':
+                    map = 'anubis';
+                    break;
+                    case 'mapSelectionAnubis':
+                        map = 'anubis';
+                        break;
+                default:
+                    map = 'unknown';
+                    break;
+            }
+            console.log(map);
             countersCollection.updateOne(
-                { name: 'clickCounter' },
+                { name: 'clickCounter', map: map, win: true },
                 { $inc: { count: 1 } },
                 { upsert: true }
             )
@@ -30,47 +44,47 @@ MongoClient.connect(dbUrl)
         app.use(express.static('public'));
 
         app.get('/', function (req, res) {
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/index.html', {});
+            res.sendFile(__dirname + '/index.html');
           });
 
         app.get('/script.js',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/script.js',{}); 
+            res.sendFile(__dirname + '/script.js',{}); 
         });
 
         app.get('/de_anubis.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_anubis.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_anubis.png',{}); 
         });
 
         app.get('/de_mirage.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_mirage.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_mirage.png',{}); 
         });
 
         app.get('/de_ancient.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_ancient.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_ancient.png',{}); 
         });
 
         app.get('/de_dust2.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_dust2.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_dust2.png',{}); 
         });
 
         app.get('/de_inferno.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_inferno.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_inferno.png',{}); 
         });
 
         app.get('/de_overpass.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_overpass.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_overpass.png',{}); 
         });
 
         app.get('/de_nuke.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_nuke.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_nuke.png',{}); 
         });
 
         app.get('/de_vertigo.png',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/public/images/de_vertigo.png',{}); 
+            res.sendFile(__dirname + '/public/images/de_vertigo.png',{}); 
         });
         
         app.get('/main.css',function(req,res){
-            res.sendFile('/Users/atakancocen/cs2-round-tracker/assets/css/main.css',{}); 
+            res.sendFile(__dirname + '/public/assets/css/main.css',{}); 
         });
 
         
