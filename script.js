@@ -1,14 +1,19 @@
 var mapSelection = '';
 var mapOptions = document.getElementsByClassName('mapSelection');
 for (i = 0; i < mapOptions.length; i++) {
-    console.log(mapOptions);
     mapOptions[i].addEventListener("click", function(event) {
-        mapSelection = event.target.id;
+        mapSelection = event.target.getAttribute('data-mapselection');
     });
 }
 
+var winBtns = document.getElementsByClassName('winBtn');
+winBtns.foreach(w => {
+    w.addEventListener("click", (event) => {
+
+    });
+});
+
 document.getElementById('incrementBtn').addEventListener('click', () => {
-    console.log('Map Selection: ' + mapSelection);
     fetch('/increment?' + new URLSearchParams(
         {
             map: mapSelection

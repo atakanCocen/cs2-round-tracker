@@ -17,27 +17,23 @@ MongoClient.connect(dbUrl)
         const countersCollection = db.collection('counters');
         
         // Endpoint to increment counter
-        app.post('/increment', (req, res) => {
-            let map = '';
-
-            switch (req.query.map){
-                case 'mapSelectionAnubis':
-                    map = 'anubis';
-                    break;
-                    case 'mapSelectionAnubis':
-                        map = 'anubis';
-                        break;
-                default:
-                    map = 'unknown';
-                    break;
-            }
-            console.log(map);
+        app.post('/win', (req, res) => {
             countersCollection.updateOne(
-                { name: 'clickCounter', map: map, win: true },
+                { name: 'clickCounter', map: req.query.map, win: true },
                 { $inc: { count: 1 } },
                 { upsert: true }
             )
-            .then(result => res.json({ success: true }))
+            .then(res => res.json({ success: true }))
+            .catch(error => console.error(error));
+        });
+
+        app.post('/loss', (req, res) => {
+            countersCollection.updateOne(
+                { name: 'clickCounter', map: req.query.map, win: false },
+                { $inc: { count: 1 } },
+                { upsert: true }
+            )
+            .then(res => res.json({ success: true }))
             .catch(error => console.error(error));
         });
 
