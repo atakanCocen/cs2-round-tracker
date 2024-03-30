@@ -23,7 +23,9 @@ MongoClient.connect(dbUrl)
                 { $inc: { count: 1 } },
                 { upsert: true }
             )
-            .then(res => res.json({ success: true }))
+            .then(response =>  {
+                response.json({ success: true })
+            })
             .catch(error => console.error(error));
         });
 
@@ -33,7 +35,10 @@ MongoClient.connect(dbUrl)
                 { $inc: { count: 1 } },
                 { upsert: true }
             )
-            .then(res => res.json({ success: true }))
+            .then(res =>  {
+                console.log(res);
+                //res.json({ success: true })
+            })
             .catch(error => console.error(error));
         });
 
