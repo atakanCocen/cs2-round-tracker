@@ -18,15 +18,25 @@ MongoClient.connect(dbUrl)
         
         // Endpoint to increment counter
         app.post('/win', (req, res) => {
-            countersCollection.updateOne(
+            countersCollection.insertOne(
                 { name: 'roundTracker', map: req.query.map, win: true, timeStamp: new Date().toLocaleString() },
-                { $inc: { count: 1 } },
                 { upsert: true }
             )
             .then(response =>  {
-                res.json({ success: true })
+                console.log(response);
+                countersCollection.find({
+                    name: 'roundTracker',
+                    win: true
+                }).toArray((err, docs) => {
+                    console.log(docs);
+                })
             })
             .catch(error => console.error(error));
+
+            countersCollection.find().toArray().then(response => {
+                console.log(response);
+            });
+            
         });
 
         app.post('/loss', (req, res) => {
@@ -36,7 +46,6 @@ MongoClient.connect(dbUrl)
                 { upsert: true }
             )
             .then(response =>  {
-                console.log(res);
                 res.json({ success: true })
             })
             .catch(error => console.error(error));
