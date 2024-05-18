@@ -1,14 +1,14 @@
 var mapSelection = null;
 var mapOptions = document.getElementsByClassName('mapSelection');
+var sideSelections = document.getElementsByClassName('sideSelection');
 var displayState = false;
 // create a list
-const arrayOfMaps = ["anubis", "mirage", "ancient", "dust2", "overpass", "inferno", "nuke", "vertigo"]
+const arrayOfMaps = ["anubis", "mirage", "ancient", "dust2", "inferno", "nuke", "vertigo"]
 
 for (i = 0; i < mapOptions.length; i++) {
 
 // add an if check if it's the right event type. If it is, set the map selection, otherwise don't do anything.
 // if map selection == null
-    console.log(mapSelection)
     mapOptions[i].addEventListener("click", function(event) {
         //event.preventDefault();
         let tempMapVariable = event.target.getAttribute('data-mapselection');
@@ -16,9 +16,6 @@ for (i = 0; i < mapOptions.length; i++) {
         if (tempMapVariable !== null) {
             mapSelection = tempMapVariable;
         }
-        console.log(tempMapVariable)
-        console.log(event.target);
-        console.log("mapSelection =" + mapSelection);
         
         for (element of arrayOfMaps) {
             if (mapSelection !== element) {
@@ -33,13 +30,34 @@ for (i = 0; i < mapOptions.length; i++) {
         }
         showSelectionContainer(mapSelection);
         
-        console.log(mapSelection);
-        
         // add this current map to the list
 
         // call function without any inputs that 
         // loops through the list or retrieves list value 
         // then uses that variable to just call the style.display.none
+    });
+}
+
+for (sideSelection of sideSelections){
+    sideSelection.addEventListener("click", function(event) {
+        console.log(event.target);
+        console.log(event.target.value);
+
+        let oppositeHalfSideSelection = null;
+        if (event.target.id.includes('Starting') && event.target.id.includes('SideT')){
+            oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchSecondSideCT`);
+        }
+        else if (event.target.id.includes('Starting') && event.target.id.includes('SideCT')) { 
+            oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchSecondSideT`);
+        }
+        else if (event.target.id.includes('Second') && event.target.id.includes('SideT')) { 
+            oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchStartingSideCT`);
+        }
+        else if (event.target.id.includes('Second') && event.target.id.includes('SideCT')) { 
+            oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchStartingSideT`);
+        }
+
+        oppositeHalfSideSelection.checked = true;
     });
 }
 // else same block of code + before it selectionContainer.style.display = 'hidden';
@@ -64,31 +82,31 @@ function hidePreviousSelection(map){
 
 // create an if else maybe to check if it's T or CT side selected and then change the text of the other section.
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Get references to the radio buttons
-    var firstHalfOption1 = document.querySelector('input[name="matchStartingSide"][value="T"]');
-    var firstHalfOption2 = document.querySelector('input[name="matchStartingSide"][value="CT"]');
-    var secondHalfOption1 = document.querySelector('input[name="matchSecondSide"][value="T"]');
-    var secondHalfOption2 = document.querySelector('input[name="matchSecondSide"][value="CT"]');
+// document.addEventListener("DOMContentLoaded", function() {
+//    // Get references to the radio buttons
+//    var firstHalfOption1 = document.querySelector('input[name="matchStartingSide"][value="T"]');
+//    var firstHalfOption2 = document.querySelector('input[name="matchStartingSide"][value="CT"]');
+//    var secondHalfOption1 = document.querySelector('input[name="matchSecondSide"][value="T"]');
+//    var secondHalfOption2 = document.querySelector('input[name="matchSecondSide"][value="CT"]');
 
-    // Add event listener to the radio buttons
-    firstHalfOption1.addEventListener('change', function() {
-        if (firstHalfOption1.checked) {
-            secondHalfOption2.checked = true;
-        } 
-        else {
-            secondHalfOption1.checked = true;
-        }
-    });
-    firstHalfOption2.addEventListener('change', function() {
-        if (firstHalfOption2.checked) {
-            secondHalfOption1.checked = true;
-        } 
-        else {
-            secondHalfOption2.checked = true;
-        }
-    });
-});
+//    // Add event listener to the radio buttons
+//    firstHalfOption1.addEventListener('change', function() {
+//        if (firstHalfOption1.checked) {
+//            secondHalfOption2.checked = true;
+//        } 
+//        else {
+//            secondHalfOption1.checked = true;
+//        }
+//    });
+//    firstHalfOption2.addEventListener('change', function() {
+//        if (firstHalfOption2.checked) {
+//            secondHalfOption1.checked = true;
+//        } 
+//        else {
+//            secondHalfOption2.checked = true;
+//        }
+//    });
+// });
 
 var roundSubmitForms = document.getElementsByClassName('rounds-submit-form');
 for (let i = 0; i < roundSubmitForms.length; i++){
