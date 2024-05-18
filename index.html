@@ -55,24 +55,44 @@
 								<h2>de_anubis</h2>
 								<section class="box feature">
 									<div class="mapSelection">
-										<a href="#" class="image featured"><img src="/de_anubis.png" data-mapselection="anubis" alt="" />
+										<a href="#/" class="image featured"><img src="/de_anubis.png" data-mapselection="anubis" alt="" />
 										</a>
 										<div class="inner" id="anubis-selectionContainer" style="display: none;" >
 											<div id="anubis-sideSelectionContainer" style="display: none;">
-												<p>Map Starting Side- </p>
-												<button class="TSide">T</button>
-												<button class="CTSide">CT</button>
 											</div>
 											<p class="selectedSide" style="display: none;">CT</p>
 											<div id="anubis-roundContainer" style="display: none;">
-												<p>1st round result-</p>
-												<button class="winBtn">Won</button>
-												<button class="lossBtn">Lost</button>
-												<p>2nd round result-</p>
-												<button class="winBtn">Won</button>
-												<button class="lossBtn">Lost</button>
-											</div>
-											<script type="text/javascript" src="script.js"></script>
+												<!-- action and method are not needed anymore because we use what's in script.js -->
+												<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+													<fieldset>
+														<p>Map Starting Side- </p>
+														<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+														<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+														<p>Round 1-</p>
+														<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+														<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+														<label for="Tround1"></label>
+														<p>Round 2-</p>
+														<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+														<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+														<label for="Tround2"></label>
+
+														<p>Map Second Side- </p>
+														<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+														<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+														<p>Round 1-</p>
+														<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+														<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+														<label for="secondTround1"></label>
+														<p>Round 2-</p>
+														<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+														<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+														<label for="secondTround2"></label>
+														<input type="submit"></input>
+													</fieldset>
+												</form>
+												
+											<!-- <script type="text/javascript" src="script.js"></script> -->
 										</div>
 									</div>
 									
@@ -83,11 +103,94 @@
 								<!-- Box -->
 								<h2>de_mirage</h2>
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_mirage.png" alt="" /></a>
-										<div class="inner">
-											<header>
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_mirage.png" data-mapselection="mirage" alt="" />
+											</a>
+											<div class="inner" id="mirage-selectionContainer" style="display: none;" >
+												<div id="mirage-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="mirage-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+												<!-- <script type="text/javascript" src="script.js"></script> -->
+											</div>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-4 col-12-medium">
+
+								<!-- Box -->
+								<h2>de_ancient</h2>
+									<section class="box feature">
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_ancient.png" data-mapselection="ancient" alt="" />
+											</a>
+											<div class="inner" id="ancient-selectionContainer" style="display: none;" >
+												<div id="ancient-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="ancient-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+													
 												
-											</header>
+											</div>
 										</div>
 									</section>
 
@@ -95,12 +198,98 @@
 							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
+								<h2>de_dust2</h2>
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_ancient.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_ancient</h2>
-											</header>
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_dust2.png" data-mapselection="dust2" alt="" />
+											</a>
+											<div class="inner" id="dust2-selectionContainer" style="display: none;" >
+												<div id="dust2-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="dust2-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+													
+												<!-- <script type="text/javascript" src="script.js"></script> -->
+											</div>
+										</div>
+									</section>
+
+							</div>
+							
+							<div class="col-4 col-12-medium">
+
+								<!-- Box -->
+								<h2>de_inferno</h2>
+									<section class="box feature">
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_inferno.png" data-mapselection="inferno" alt="" />
+											</a>
+											<div class="inner" id="inferno-selectionContainer" style="display: none;" >
+												<div id="inferno-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="inferno-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+													
+												<!-- <script type="text/javascript" src="script.js"></script> -->
+											</div>
 										</div>
 									</section>
 
@@ -108,12 +297,48 @@
 							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
+								<h2>de_nuke</h2>
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_dust2.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_dust2</h2>
-											</header>
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_nuke.png" data-mapselection="nuke" alt="" />
+											</a>
+											<div class="inner" id="nuke-selectionContainer" style="display: none;" >
+												<div id="nuke-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="nuke-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+													
+												<!-- <script type="text/javascript" src="script.js"></script> -->
+											</div>
 										</div>
 									</section>
 
@@ -121,51 +346,47 @@
 							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
+								<h2>de_vertigo</h2>
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_overpass.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_overpass</h2>
-											</header>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_inferno.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_inferno</h2>
-											</header>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_nuke.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_nuke</h2>
-											</header>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="/de_vertigo.png" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>de_vertigo</h2>
-											</header>
+										<div class="mapSelection">
+											<a href="#/" class="image featured"><img src="/de_vertigo.png" data-mapselection="vertigo" alt="" />
+											</a>
+											<div class="inner" id="vertigo-selectionContainer" style="display: none;" >
+												<div id="vertigo-sideSelectionContainer" style="display: none;">
+												</div>
+												<p class="selectedSide" style="display: none;">CT</p>
+												<div id="vertigo-roundContainer" style="display: none;">
+													<!-- action and method are not needed anymore because we use what's in script.js -->
+													<form id="rounds-submit-form" class="rounds-submit-form" action="/rounds-submit" method="post">
+														<fieldset>
+															<p>Map Starting Side- </p>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideT" value="T">T</input>
+															<input class="" name="matchStartingSide" type="radio" id="matchStartingSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="round1" type="radio" id="Tround1True" value="won">won</input>
+															<input class="" name="round1" type="radio" id="Tround1False" value="lost" />lost</input>
+															<label for="Tround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="round2" type="radio" id="Tround2True" value="won">won</input>
+															<input class="" name="round2" type="radio" id="Tround2False" value="lost" />lost</input>
+															<label for="Tround2"></label>
+	
+															<p>Map Second Side- </p>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideT" value="T">T</input>
+															<input class="" name="matchSecondSide" type="radio" id="matchSecondSideCT" value="CT"/>CT</input>
+															<p>Round 1-</p>
+															<input class="" name="secondround1" type="radio" id="secondTround1True" value="won">won</input>
+															<input class="" name="secondround1" type="radio" id="secondTround1False" value="lost" />lost</input>
+															<label for="secondTround1"></label>
+															<p>Round 2-</p>
+															<input class="" name="secondround2" type="radio" id="secondTround2True" value="won">won</input>
+															<input class="" name="secondround2" type="radio" id="secondTround2False" value="lost" />lost</input>
+															<label for="secondTround2"></label>
+															<input type="submit"></input>
+														</fieldset>
+													</form>
+												<!-- <script type="text/javascript" src="script.js"></script> -->
+											</div>
 										</div>
 									</section>
 
@@ -174,9 +395,8 @@
 					</div>
 				</div>
 
-
 		<!-- Scripts -->
-
+			<script type="text/javascript" src="script.js"></script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>

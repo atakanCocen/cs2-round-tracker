@@ -17,3 +17,13 @@
 5. Reverse flow if CT is selected first. Same functionality.
 
 6. Reset page on final button click full data achieved
+
+7. When map is selected, it expands into large part of page.
+
+
+
+
+1. hidden input variables
+just have an input variable and display to none.
+
+maybe js localstorage
