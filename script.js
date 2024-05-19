@@ -20,13 +20,14 @@ for (mapOption of mapOptions) {
         for (element of arrayOfMaps) {
             let selectionContainer = document.getElementById(`${element}-selectionContainer`);
             let roundContainer = document.getElementById(`${element}-roundContainer`);
+            // second part- each click first argument is true, but if it's also the image container you're clicking, and if it's already displayed.
             if (mapSelection !== element || (mapSelection == element && isContainer && selectionContainer.style.display == 'block')) {
                 selectionContainer.style.display = 'none';
                 roundContainer.style.display = 'none';
             }
             else {
                 (showSelectionContainer(mapSelection));
-            } 
+            }
         }
         
         // add this current map to the list
@@ -41,16 +42,16 @@ for (sideSelection of sideSelections){
     sideSelection.addEventListener("click", function(event) {
 
         let oppositeHalfSideSelection = null;
-        if (event.target.id.includes('Starting') && event.target.id.includes('SideT')){
+        if (event.target.id.includes('StartingSideT')){
             oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchSecondSideCT`);
         }
-        else if (event.target.id.includes('Starting') && event.target.id.includes('SideCT')) { 
+        else if (event.target.id.includes('StartingSideCT')) { 
             oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchSecondSideT`);
         }
-        else if (event.target.id.includes('Second') && event.target.id.includes('SideT')) { 
+        else if (event.target.id.includes('SecondSideT')) { 
             oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchStartingSideCT`);
         }
-        else if (event.target.id.includes('Second') && event.target.id.includes('SideCT')) { 
+        else if (event.target.id.includes('SecondSideCT')) { 
             oppositeHalfSideSelection = document.getElementById(`${mapSelection}-matchStartingSideT`);
         }
 
@@ -91,11 +92,42 @@ function hideAllSelections(){
     }
 }
 
+function formValidiationAintIt() {
+    let matchStartingSideValue = document.forms["rounds-submit-form"]["matchStartingSide"].value;
+    let matchStartingFirstRoundValue = document.forms["rounds-submit-form"]["round1"].value;
+    let matchStartingSecondRoundValue = document.forms["rounds-submit-form"]["round2"].value;
+    let matchSecondFirstRoundValue = document.forms["rounds-submit-form"]["secondround1"].value;
+    let matchSecondSecondRoundValue = document.forms["rounds-submit-form"]["secondround2"].value;
+
+    if (matchStartingSideValue == "") {
+        alert("Match Starting Side must be filled out.");
+        return false;
+    }
+    else if (matchStartingFirstRoundValue == "") {
+        alert("Starting Half First Round Result must be filled out.");
+        return false;
+    }
+    else if (matchStartingSecondRoundValue == "") {
+        alert("Starting Half Second Round Result must be filled out.");
+        return false;
+    }
+    else if (matchSecondFirstRoundValue == "") {
+        alert("Second Half First Round Result must be filled out.");
+        return false;
+    }
+    else if (matchSecondSecondRoundValue == "") {
+        alert("Second Half Second Round Result must be filled out.");
+        return false;
+    }
+    return true;
+  }
+
 function logSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const finalData = Object.fromEntries(data)
-    fetch('/rounds-submit?' + new URLSearchParams({map: mapSelection}),
+    if (formValidiationAintIt()) {
+        fetch('/rounds-submit?' + new URLSearchParams({map: mapSelection}),
         {
             method: 'POST',
             body: JSON.stringify(finalData),
@@ -115,5 +147,9 @@ function logSubmit(event) {
     .catch((error) => {
         console.error('Error:', error);
     });
+    }
+    else {
+        console.log("NUTINNNNNN!!!!!");
+    }
   }
 
