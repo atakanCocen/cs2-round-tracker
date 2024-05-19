@@ -17,26 +17,24 @@ MongoClient.connect(dbUrl)
         const countersCollection = db.collection('counters');
         
         app.post('/rounds-submit', (req, res) => {
-            console.log(req.body)
             countersCollection.insertOne(
-                { name: 'roundTracker', map: req.query.map, firstHalfSide: req.body.matchStartingSide, round1: req.body.round1, round2: req.body.round2, secondHalfSide: req.body.matchSecondSide, secondround1: req.body.secondround1, secondround2: req.body.secondround2, timeStamp: new Date().toLocaleString() },
+                { 
+                    name: 'roundTracker', 
+                    map: req.query.map, 
+                    firstHalfSide: req.body.matchStartingSide, 
+                    round1: req.body.round1, 
+                    round2: req.body.round2, 
+                    secondHalfSide: req.body.matchSecondSide, 
+                    secondround1: req.body.secondround1, 
+                    secondround2: req.body.secondround2, 
+                    timeStamp: new Date().toLocaleString() 
+                },
                 { upsert: true }
             )
             .then(response =>  {
-                console.log(response);
-                countersCollection.find({
-                    name: 'roundTracker',
-                    win: true
-                }).toArray((err, docs) => {
-                    console.log(docs);
-                })
+                res.send({ id: response.insertedId });
             })
-            .catch(error => console.error(error));
-
-            countersCollection.find().toArray().then(response => {
-                // console.log(response);
-            });
-            
+            .catch(error => console.error(error));        
         });
 
         app.use(express.static('public'));

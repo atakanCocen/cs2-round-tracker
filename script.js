@@ -5,30 +5,29 @@ var displayState = false;
 // create a list
 const arrayOfMaps = ["anubis", "mirage", "ancient", "dust2", "inferno", "nuke", "vertigo"]
 
-for (i = 0; i < mapOptions.length; i++) {
-
-// add an if check if it's the right event type. If it is, set the map selection, otherwise don't do anything.
-// if map selection == null
-    mapOptions[i].addEventListener("click", function(event) {
+for (mapOption of mapOptions) {
+    // add an if check if it's the right event type. If it is, set the map selection, otherwise don't do anything.
+    // if map selection == null
+    mapOption.addEventListener("click", function(event) {
         //event.preventDefault();
+        let isContainer = event.target.getAttribute('data-mapselection') !== null;
         let tempMapVariable = event.target.getAttribute('data-mapselection');
         // testVariable gets set and then mapSelection wont change anymore.
-        if (tempMapVariable !== null) {
+        if (isContainer) {
             mapSelection = tempMapVariable;
         }
         
         for (element of arrayOfMaps) {
-            if (mapSelection !== element) {
-                console.log("element =" + element)
-                let selectionContainer = document.getElementById(`${element}-selectionContainer`);
-                let sideSelectionContainer = document.getElementById(`${element}-sideSelectionContainer`);
-                let roundContainer = document.getElementById(`${element}-roundContainer`);
+            let selectionContainer = document.getElementById(`${element}-selectionContainer`);
+            let roundContainer = document.getElementById(`${element}-roundContainer`);
+            if (mapSelection !== element || (mapSelection == element && isContainer && selectionContainer.style.display == 'block')) {
                 selectionContainer.style.display = 'none';
-                sideSelectionContainer.style.display = 'none';
                 roundContainer.style.display = 'none';
             }
+            else {
+                (showSelectionContainer(mapSelection));
+            } 
         }
-        showSelectionContainer(mapSelection);
         
         // add this current map to the list
 
@@ -40,8 +39,6 @@ for (i = 0; i < mapOptions.length; i++) {
 
 for (sideSelection of sideSelections){
     sideSelection.addEventListener("click", function(event) {
-        console.log(event.target);
-        console.log(event.target.value);
 
         let oppositeHalfSideSelection = null;
         if (event.target.id.includes('Starting') && event.target.id.includes('SideT')){
@@ -64,14 +61,10 @@ for (sideSelection of sideSelections){
 
 
 function showSelectionContainer(map){
-    // console.log(map);
     let selectionContainer = document.getElementById(`${map}-selectionContainer`);
-    let sideSelectionContainer = document.getElementById(`${map}-sideSelectionContainer`);
     let roundContainer = document.getElementById(`${map}-roundContainer`);
     
-    console.log(roundContainer);
     selectionContainer.style.display = 'block';
-    sideSelectionContainer.style.display = 'block';
     roundContainer.style.display = 'block';
 
 }
@@ -80,51 +73,28 @@ function hidePreviousSelection(map){
 
 }
 
-// create an if else maybe to check if it's T or CT side selected and then change the text of the other section.
-
-// document.addEventListener("DOMContentLoaded", function() {
-//    // Get references to the radio buttons
-//    var firstHalfOption1 = document.querySelector('input[name="matchStartingSide"][value="T"]');
-//    var firstHalfOption2 = document.querySelector('input[name="matchStartingSide"][value="CT"]');
-//    var secondHalfOption1 = document.querySelector('input[name="matchSecondSide"][value="T"]');
-//    var secondHalfOption2 = document.querySelector('input[name="matchSecondSide"][value="CT"]');
-
-//    // Add event listener to the radio buttons
-//    firstHalfOption1.addEventListener('change', function() {
-//        if (firstHalfOption1.checked) {
-//            secondHalfOption2.checked = true;
-//        } 
-//        else {
-//            secondHalfOption1.checked = true;
-//        }
-//    });
-//    firstHalfOption2.addEventListener('change', function() {
-//        if (firstHalfOption2.checked) {
-//            secondHalfOption1.checked = true;
-//        } 
-//        else {
-//            secondHalfOption2.checked = true;
-//        }
-//    });
-// });
-
 var roundSubmitForms = document.getElementsByClassName('rounds-submit-form');
-for (let i = 0; i < roundSubmitForms.length; i++){
-    roundSubmitForms[i].addEventListener("submit", logSubmit);
+for (roundSubmitForm of roundSubmitForms){
+    roundSubmitForm.addEventListener("submit", logSubmit);
+}
+
+function resetFormValues(){
+    for (roundSubmitForm of roundSubmitForms){
+        roundSubmitForm.reset();
+    }
+}
+
+function hideAllSelections(){
+    for (map of arrayOfMaps){
+        let selectionContainer = document.getElementById(`${map}-selectionContainer`);
+        selectionContainer.style.display = 'none';
+    }
 }
 
 function logSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const finalData = Object.fromEntries(data)
-    console.log([...data.entries()]);
-    console.log(event);
-    // var firstHalfSide = data.entries().matchStartingSide.value;
-    // var secondHalfSide = form.matchSecondSide.value;
-    // var round1 = form.round1.value;
-    // var round2 = form.round2.value;
-    // var secondround1 = form.secondround1.value;
-    // var secondround2 = form.secondround2.value;
     fetch('/rounds-submit?' + new URLSearchParams({map: mapSelection}),
         {
             method: 'POST',
@@ -135,10 +105,13 @@ function logSubmit(event) {
 
     })
     .then(res => {
-        console.log('Response: ' + res);
         res.json()
+        .then(data => {
+            alert('Success');
+            resetFormValues();
+            hideAllSelections();
+        });
     })
-    .then(data => console.log('Success:', data))
     .catch((error) => {
         console.error('Error:', error);
     });

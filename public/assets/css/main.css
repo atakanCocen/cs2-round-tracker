@@ -187,6 +187,83 @@ select, textarea {
 		margin-bottom: 2em;
 	}
 
+	.btn {
+		float: right;
+		margin: 0 5px 0 0;
+		width: 7em;
+		height: 100%;
+		position: relative;
+	  }
+	  
+	.btn label,
+	.btn input {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	
+	.btn input[type="radio"] {
+		cursor: pointer;
+		opacity: 0.011;
+		z-index: 100;
+	}
+
+	.btn input[type="radio"] + label {
+		border-radius: 4px;
+		border-width: 2px;
+		border-style: solid;
+		border-color: black;
+	}
+	
+	.btn input[type="radio"]:checked + label {
+		border-radius: 4px;
+		color:white;
+	}
+
+	.btn-ct input[type="radio"]:checked + label {
+		background: #27387e;
+	}
+
+	.btn-t input[type="radio"]:checked + label {
+		background: #fbac1a;
+	}
+
+	.btn-won input[type="radio"]:checked + label {
+		background: #538F1B;
+	}
+
+	.btn-lost input[type="radio"]:checked + label {
+		background: #9F2535;
+	}
+	
+	.btn label {
+		cursor: pointer;
+		z-index: 90;
+		height: 100%;
+		line-height: 1.4em;
+		text-align: center;
+		font-size: 24px;
+	}
+
+	.btn-group {
+		height: 40px;
+		margin: 10px 0 10px 0;
+	}
+
+	.btn-group label:first-child {
+		float: left;
+		margin: 0;
+	}
+
+	.map-selection-submit {
+		width: 70%;
+		margin: 10% 0 0 15%;
+		line-height: 1.75em;
+	}
+
 /* Container */
 
 	.container {
@@ -1785,7 +1862,7 @@ select, textarea {
 		}
 
 			.box.feature .inner {
-				padding: 4em 2em 3em 2em;
+				padding: 3em 2em 3em 2em;
 			}
 
 			.box.feature h2 {
