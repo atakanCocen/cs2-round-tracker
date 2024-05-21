@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
+const Chart = require('chart.js/auto');
 
 const app = express();
 const port = 3000;
@@ -21,12 +22,13 @@ MongoClient.connect(dbUrl)
                 { 
                     name: 'roundTracker', 
                     map: req.query.map, 
-                    firstHalfSide: req.body.matchStartingSide, 
-                    round1: req.body.round1, 
-                    round2: req.body.round2, 
-                    secondHalfSide: req.body.matchSecondSide, 
-                    secondround1: req.body.secondround1, 
-                    secondround2: req.body.secondround2, 
+                    firstHalfSideCT: req.body.matchStartingSideCT == 'true', 
+                    round1: req.body.round1 == 'true', 
+                    round2: req.body.round2 == 'true', 
+                    secondHalfSideCT: req.body.matchSecondSideCT == 'true', 
+                    secondround1: req.body.secondround1 == 'true', 
+                    secondround2: req.body.secondround2 == 'true', 
+                    matchResult: req.body.matchResult == 'true',
                     timeStamp: new Date().toLocaleString() 
                 },
                 { upsert: true }
@@ -37,50 +39,34 @@ MongoClient.connect(dbUrl)
             .catch(error => console.error(error));        
         });
 
-        app.use(express.static('public'));
+        app.get('/get-stats', (req, res) => {
+            const query = { name: 'roundTracker', map: req.query.map };
+            countersCollection.find(query)
+            .toArray()
+            .then(response => {
+                res.send(response);
+                console.log(response);
+            })
+            .catch(error => console.error(error));
+        });
+
+        var test = express.static('/public');
+        app.use(express.static(__dirname + '/public'));
 
         app.get('/', function (req, res) {
-            res.sendFile(__dirname + '/index.html');
-          });
-
-        app.get('/script.js',function(req,res){
-            res.sendFile(__dirname + '/script.js',{}); 
+            res.sendFile(__dirname + '/pages/home/index.html');
         });
 
-        app.get('/de_anubis.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_anubis.png',{}); 
+        app.get('/home.js',function(req,res){
+            res.sendFile(__dirname + '/pages/home/home.js',{}); 
         });
 
-        app.get('/de_mirage.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_mirage.png',{}); 
+        app.get('/stats', function (req, res) {
+            res.sendFile(__dirname + '/pages/stats/stats.html');
         });
 
-        app.get('/de_ancient.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_ancient.png',{}); 
-        });
-
-        app.get('/de_dust2.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_dust2.png',{}); 
-        });
-
-        app.get('/de_inferno.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_inferno.png',{}); 
-        });
-
-        app.get('/de_overpass.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_overpass.png',{}); 
-        });
-
-        app.get('/de_nuke.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_nuke.png',{}); 
-        });
-
-        app.get('/de_vertigo.png',function(req,res){
-            res.sendFile(__dirname + '/public/images/de_vertigo.png',{}); 
-        });
-        
-        app.get('/main.css',function(req,res){
-            res.sendFile(__dirname + '/public/assets/css/main.css',{}); 
+        app.get('/stats.js', function (req, res) {
+            res.sendFile(__dirname + '/pages/stats/stats.js');
         });
         
         app.listen(port, () => {
