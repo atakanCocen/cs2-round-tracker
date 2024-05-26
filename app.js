@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
-const Chart = require('chart.js/auto');
 
 const app = express();
 const port = 3000;
@@ -40,18 +39,34 @@ MongoClient.connect(dbUrl)
         });
 
         app.get('/get-stats', (req, res) => {
-            const query = { name: 'roundTracker', map: req.query.map };
+            const query =  req.query.map == 'All' ? {} : { map: req.query.map };
+
+            // Define an aggregation pipeline with a match stage and a group stage
+            // const pipeline = [
+            //     { $match: { map: req.query.map } },
+            //     { $group: { _id: "$stars", count: { $sum: 1 } } }
+            // ];
+            // Execute the aggregation
+            //const aggCursor = coll.aggregate(pipeline);
+
+            //countersCollection.aggregate(pipeline);
+            // Print the aggregated results
+            for await (const doc of aggCursor) {
+                console.log(doc);
+            }
+
+
             countersCollection.find(query)
             .toArray()
             .then(response => {
                 res.send(response);
-                console.log(response);
             })
             .catch(error => console.error(error));
         });
 
-        var test = express.static('/public');
         app.use(express.static(__dirname + '/public'));
+
+        app.use(express.static(__dirname + '/node_modules'));
 
         app.get('/', function (req, res) {
             res.sendFile(__dirname + '/pages/home/index.html');

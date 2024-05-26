@@ -62,18 +62,30 @@
                     </form>
                 </div>
                 <div class="row">
-                    <canvas id="firstRoundWins"></canvas>
+                    <div class="col-3">
+                        <label>CT Round 1</label>
+                        <canvas id="firstRound"></canvas>
+                    </div>
+                    <div class="col-3">
+                        <label>CT Round 2</label>
+                        <canvas id="secondRound"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <label>T Round 1</label>
+                        <canvas id="thirdRound"></canvas>
+                    </div>
+                    <div class="col-3">
+                        <label>T Round 2</label>
+                        <canvas id="fourthRound"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
      <!-- Scripts -->
-     <script type="text/javascript" src="stats.js"></script>
-     <script src="assets/js/jquery.min.js"></script>
-     <script src="assets/js/jquery.dropotron.min.js"></script>
-     <script src="assets/js/browser.min.js"></script>
-     <script src="assets/js/breakpoints.min.js"></script>
-     <script src="assets/js/util.js"></script>
-     <script src="assets/js/main.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script type="module" src="stats.js"></script>
 </body>
