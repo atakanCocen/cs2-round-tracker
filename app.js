@@ -51,9 +51,9 @@ MongoClient.connect(dbUrl)
 
             //countersCollection.aggregate(pipeline);
             // Print the aggregated results
-            for await (const doc of aggCursor) {
-                console.log(doc);
-            }
+            //for await (const doc of aggCursor) {
+            //    console.log(doc);
+            //}
 
 
             countersCollection.find(query)
