@@ -1,0 +1,54 @@
+doctype html 
+
+html 
+    head 
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1, user-scalable=no')
+        title=title 
+        link(rel='stylesheet' type='text/css' href='assets/css/main.css')
+    body(class='is preload homepage')
+        #page-wrapper
+        #header-wrapper 
+            header(id='header' class='container')
+                #logo 
+                    h1 
+                        a(href='/') cs2
+                    span round tracker
+                nav(id='nav')
+                    ul 
+                        case title 
+                            when 'Home'
+                                li(class='current')
+                                    a(href='/') Home 
+                                li 
+                                    a(href='/stats') Stats
+                                li
+                                    a(href='#') Dropdown
+                                    ul 
+                                        li 
+                                            a(href='#') tes
+                                            a(href='#') tin
+                            when 'Stats'
+                                li
+                                    a(href='/') Home 
+                                li(class='current')
+                                    a(href='/stats') Stats
+                                li
+                                    a(href='#') Dropdown
+                                    ul 
+                                        li 
+                                            a(href='#') tes
+                                            a(href='#') tin
+                            default 
+                                li
+                                    a(href='/') Home 
+                                li 
+                                    a(href='/stats') Stats
+                                li(class='current')
+                                    a(href='#') Dropdown
+                                    ul 
+                                        li 
+                                            a(href='#') tes
+                                            a(href='#') tin
+
+        block content

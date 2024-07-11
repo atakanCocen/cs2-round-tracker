@@ -55,33 +55,302 @@ MongoClient.connect(dbUrl)
             //    console.log(doc);
             //}
 
+            let pipeline = 
+                [
+                    { $group: {
+                        _id: "$map",
+                        ctRound1Win: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$round1" ] }, { $and: [ "$secondHalfSideCT", "$secondround1" ] } ] }, 1, 0 ] } },
+                        ctRound1Loss: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$round1" ] }, { $and: [ "$secondHalfSideCT", "$secondround1" ] } ] }, 0, 1 ] } },
+                        ctRound2Win: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$round2" ] }, { $and: [ "$secondHalfSideCT", "$secondround2" ] } ] }, 1, 0 ] } },
+                        ctRound2Loss: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$round2" ] }, { $and: [ "$secondHalfSideCT", "$secondround2" ] } ] }, 0, 1 ] } },
+                        tRound1Win: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$secondround1" ] }, { $and: [ "$secondHalfSideCT", "$round1" ] } ] }, 1, 0] } },
+                        tRound1Loss: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$secondround1" ] }, { $and: [ "$secondHalfSideCT", "$round1" ] } ] }, 0, 1 ] } },
+                        tRound2Win: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$secondround2" ] }, { $and: [ "$secondHalfSideCT", "$round2" ] } ] }, 1, 0 ] } },
+                        tRound2Loss: { $sum: { $cond: [ { $or: [ { $and: [ "$firstHalfSideCT", "$secondround2" ] }, { $and: [ "$secondHalfSideCT", "$round2" ] } ] }, 0, 1 ] } },
+                        gamesWon: { $sum: { $cond: ["$matchResult", 1, 0] } },
+                        gamesLost: { $sum: { $cond: ["$matchResult", 0, 1] } },
+                        ctRound2WinAfterRound1Win: { $sum: { $cond: [ { $or: [ { $and: [ { $and: [ "$firstHalfSideCT", "$round1" ] }, "$round2" ] }, { $and: [ { $and: [ "$secondHalfSideCT", "$secondround1" ] }, "$secondround2" ] }, ] }, 1, 0 ] } },
+                        ctRound2LossAfterRound1Win: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            "$round1"
+                                        ]
+                                        },
+                                        {$not: ["$round2"]}
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            "$secondround1"
+                                        ]
+                                        },
+                                        {$not: ["$secondround2"]}
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        ctRound2WinAfterRound1Loss: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            {$not: ["$round1"]}
+                                        ]
+                                        },
+                                        "$round2"
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            {$not: ["$secondround1"]}
+                                        ]
+                                        },
+                                        "$secondround2"
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        ctRound2LossAfterRound1Loss: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            {$not: ["$round1"]}
+                                        ]
+                                        },
+                                        {$not: ["$round2"]}
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            {$not: ["$secondround1"]}
+                                        ]
+                                        },
+                                        {$not: ["$secondround2"]}
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        tRound2WinAfterRound1Win: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            "$round1"
+                                        ]
+                                        },
+                                        "$round2"
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            "$secondround1"
+                                        ]
+                                        },
+                                        "$secondround2"
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        tRound2LossAfterRound1Win: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            "$round1"
+                                        ]
+                                        },
+                                        {$not: ["$round2"]}
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            "$secondround1"
+                                        ]
+                                        },
+                                        {$not: ["$secondround2"]}
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        tRound2WinAfterRound1Loss: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            {$not: ["$round1"]}
+                                        ]
+                                        },
+                                        "$round2"
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            {$not: ["$secondround1"]}
+                                        ]
+                                        },
+                                        "$secondround2"
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                        tRound2LossAfterRound1Loss: {
+                            $sum: {
+                            $cond: [
+                                {
+                                $or: [
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$secondHalfSideCT",
+                                            {$not: ["$round1"]}
+                                        ]
+                                        },
+                                        {$not: ["$round2"]}
+                                    ]
+                                    },
+                                    {
+                                    $and: [
+                                        {
+                                        $and: [
+                                            "$firstHalfSideCT",
+                                            {$not: ["$secondround1"]}
+                                        ]
+                                        },
+                                        {$not: ["$secondround2"]}
+                                    ]
+                                    },
+                                ]
+                                },
+                                1,
+                                0
+                            ]
+                            }
+                        },
+                    }},
+                    {$sort: { _id: 1 }}
+                ];
 
-            countersCollection.find(query)
-            .toArray()
-            .then(response => {
+
+            if (req.query.map != 'All'){
+                //pipeline.push({$match: { map: req.query.map }});
+                pipeline = [{$match: { map: req.query.map }}, pipeline[0]];
+            }
+            else {
+                //pipeline =[pipeline]
+            }
+
+            countersCollection.aggregate(pipeline)
+                .toArray()
+                .then(response => {
                 res.send(response);
-            })
-            .catch(error => console.error(error));
+                })
+                .catch(error => console.error(error));
         });
 
         app.use(express.static(__dirname + '/public'));
 
-        app.use(express.static(__dirname + '/node_modules'));
+        app.set('view engine', 'pug');
 
         app.get('/', function (req, res) {
-            res.sendFile(__dirname + '/pages/home/index.html');
+            res.render('home', {
+                title: 'Home'
+            });
         });
 
         app.get('/home.js',function(req,res){
-            res.sendFile(__dirname + '/pages/home/home.js',{}); 
+            res.sendFile(__dirname + '/js/home.js',{}); 
         });
 
         app.get('/stats', function (req, res) {
-            res.sendFile(__dirname + '/pages/stats/stats.html');
+            res.render('stats', {
+                title: 'Stats'
+            });
         });
 
         app.get('/stats.js', function (req, res) {
-            res.sendFile(__dirname + '/pages/stats/stats.js');
+            res.sendFile(__dirname + '/js/stats.js');
         });
         
         app.listen(port, () => {

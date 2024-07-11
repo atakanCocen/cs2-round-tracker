@@ -10,7 +10,8 @@
     "chartjs-node-canvas": "^4.1.6",
     "express": "^4.19.1",
     "html": "^1.0.0",
-    "mongodb": "^6.5.0"
+    "mongodb": "^6.5.0",
+    "pug": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",

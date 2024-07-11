@@ -1,0 +1,85 @@
+extends default 
+
+block content 
+    div(style='display: flex; flex-direction: row; align-items: center; justify-content: center;')
+        h1 Select Map Played!
+    #features-wrapper 
+        .container     
+            .row 
+                each map in ['anubis', 'mirage', 'ancient', 'dust2', 'inferno', 'nuke', 'vertigo']
+                    .col-4.col-12-medium
+                        h2 de_#{map}
+                        section(class='box feature')
+                            .mapSelection
+                                a(class='image featured' href='#/')
+                                    img(src=`images/de_${map}.png` data-mapselection=map alt='')
+                                .inner(id=`${map}-selectionContainer` style='display: none;')
+                                    div(id=`${map}-roundContainer` style='display: none;')
+                                        form(class='rounds-submit-form' actions='/rounds-submit' method='post')
+                                            fieldset 
+                                                .btn-group 
+                                                    label 1st Side: 
+                                                    .btn.btn-t(style='cursor: pointer;')
+                                                        input(class='sideSelection' name='matchStartingSideCT' type='radio' id=`${map}-matchStartingSideT` value='false')
+                                                        label T
+                                                    .btn.btn-ct(style='cursor: pointer;')
+                                                        input(class='sideSelection' name='matchStartingSideCT' type='radio' id=`${map}-matchStartingSideCT` value='true')
+                                                        label CT
+                                                .btn-group 
+                                                    label Round 1: 
+                                                    .btn.btn-won(style='cursor: pointer;')
+                                                        input(name='round1' type='radio' value='true')
+                                                        label Won
+                                                    .btn.btn-lost(style='cursor: pointer;')
+                                                        input(name='round1' type='radio' value='false')
+                                                        label Lost
+                                                .btn-group 
+                                                    label Round 2: 
+                                                    .btn.btn-won(style='cursor: pointer;')
+                                                        input(name='round2' type='radio' value='true')
+                                                        label Won
+                                                    .btn.btn-lost(style='cursor: pointer;')
+                                                        input(name='round2' type='radio' value='false')
+                                                        label Lost
+                                                br
+                                                .btn-group 
+                                                    label 2nd Side: 
+                                                    .btn.btn-t(style='cursor: pointer;')
+                                                        input(class='sideSelection' name='matchSecondSideCT' type='radio' id=`${map}-matchSecondSideT` value='false')
+                                                        label T
+                                                    .btn.btn-ct(style='cursor: pointer;')
+                                                        input(class='sideSelection' name='matchSecondSideCT' type='radio' id=`${map}-matchSecondSideCT` value='true')
+                                                        label CT
+                                                .btn-group 
+                                                    label Round 1: 
+                                                    .btn.btn-won(style='cursor: pointer;')
+                                                        input(name='secondround1' type='radio' value='true')
+                                                        label Won
+                                                    .btn.btn-lost(style='cursor: pointer;')
+                                                        input(name='secondround1' type='radio' value='false')
+                                                        label Lost
+                                                .btn-group 
+                                                    label Round 2: 
+                                                    .btn.btn-won(style='cursor: pointer;')
+                                                        input(name='secondround2' type='radio' value='true')
+                                                        label Won
+                                                    .btn.btn-lost(style='cursor: pointer;')
+                                                        input(name='secondround2' type='radio' value='false')
+                                                        label Lost
+                                                br
+                                                .btn-group 
+                                                    label Match Result: 
+                                                    .btn.btn-won(style='cursor: pointer;')
+                                                        input(name='matchResult' type='radio' value='true')
+                                                        label Won
+                                                    .btn.btn-lost(style='cursor: pointer;')
+                                                        input(name='matchResult' type='radio' value='false')
+                                                        label Lost
+                                                input(class='map-selection-submit' type='submit')
+    script(src='home.js' type='text/javascript')
+    script(src='assets/js/jquery.min.js' type='text/javascript')
+    script(src='assets/js/jquery.dropotron.min.js' type='text/javascript')
+    script(src='assets/js/browser.min.js' type='text/javascript')
+    script(src='assets/js/breakpoints.min.js' type='text/javascript')
+    script(src='assets/js/util.js' type='text/javascript')
+    script(src='assets/js/main.js' type='text/javascript')
