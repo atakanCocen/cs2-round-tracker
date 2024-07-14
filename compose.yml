@@ -1,0 +1,23 @@
+services:
+  mongodb:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes: 
+      - mongo-data:/data/db
+
+  node-app:
+    container_name: node-app
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/src
+    links:
+      - "mongodb"
+      
+volumes:
+  mongo-data:

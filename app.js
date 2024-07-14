@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 
 const app = express();
 const port = 3000;
-const dbUrl = 'mongodb://localhost:27017/';
+const dbUrl = 'mongodb://mongodb:27017/';
 const dbName = 'mydatabase';
 
 app.use(bodyParser.json());
