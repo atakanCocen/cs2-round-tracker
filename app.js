@@ -4,8 +4,11 @@ const { MongoClient } = require('mongodb');
 
 const app = express();
 const port = 3000;
-const dbUrl = 'mongodb://mongodb:27017/';
-const dbName = 'mydatabase';
+
+const username = encodeURIComponent("admin");
+const password = encodeURIComponent("password");
+const dbUrl = `mongodb://${username}:${password}@mongodb:27017/?authMechanism=DEFAULT`;
+const dbName = 'cs2';
 
 app.use(bodyParser.json());
 
