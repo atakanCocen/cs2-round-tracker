@@ -1,14 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
 
-const username = encodeURIComponent("admin");
-const password = encodeURIComponent("password");
+const username = encodeURIComponent(process.env.MONGO_DB_USER);
+const password = encodeURIComponent(process.env.MONGO_DB_PASSWORD);
 const dbUrl = `mongodb://${username}:${password}@mongodb:27017/?authMechanism=DEFAULT`;
-const dbName = 'cs2';
+const dbName = process.env.MONGO_DB;
 
 app.use(bodyParser.json());
 
@@ -17,7 +18,7 @@ MongoClient.connect(dbUrl)
     .then(client => {
         console.log('Connected to Database');
         const db = client.db(dbName);
-        const countersCollection = db.collection('counters');
+        const countersCollection = db.collection(process.env.MONGO_COLLECTION);
         
         app.post('/rounds-submit', (req, res) => {
             countersCollection.insertOne(
