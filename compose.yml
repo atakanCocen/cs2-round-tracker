@@ -17,7 +17,7 @@ services:
     container_name: node-app
     build: .
     ports:
-      - 3000:3000
+      - ${NODE_APP_PORT}:${NODE_APP_PORT}
     depends_on:
       - mongodb
     volumes:
