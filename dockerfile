@@ -3,7 +3,7 @@ FROM node:20
 WORKDIR /src
 RUN ls
 COPY package.json .
-RUN npm install 
+RUN npm install
 
 COPY . .
 

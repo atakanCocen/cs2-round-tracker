@@ -7,7 +7,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DB}
       MONGO_INITDB_COLLECTION: ${COUNTER_COLLECTION}
-      #MONGO_USER_COLLECTION: ${USER_COLLECTION}
+      MONGO_USER_COLLECTION: ${USER_COLLECTION}
     ports:
       - 27017:27017
     volumes: 
@@ -16,6 +16,7 @@ services:
 
   node-app:
     container_name: node-app
+    platform: linux/amd64
     build: .
     ports:
       - ${NODE_APP_PORT}:${NODE_APP_PORT}

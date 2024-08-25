@@ -20,7 +20,7 @@ MongoClient.connect(dbUrl)
         console.log('Connected to Database');
         const db = client.db(dbName);
         const countersCollection = db.collection(process.env.COUNTER_COLLECTION);
-        //const userCollection = db.collection(process.env.USER_COLLECTION);
+        const userCollection = db.collection(process.env.USER_COLLECTION);
         
         app.post('/rounds-submit', (req, res) => {
             countersCollection.insertOne(
@@ -46,20 +46,6 @@ MongoClient.connect(dbUrl)
 
         app.get('/get-stats', (req, res) => {
             const query =  req.query.map == 'All' ? {} : { map: req.query.map };
-
-            // Define an aggregation pipeline with a match stage and a group stage
-            // const pipeline = [
-            //     { $match: { map: req.query.map } },
-            //     { $group: { _id: "$stars", count: { $sum: 1 } } }
-            // ];
-            // Execute the aggregation
-            //const aggCursor = coll.aggregate(pipeline);
-
-            //countersCollection.aggregate(pipeline);
-            // Print the aggregated results
-            //for await (const doc of aggCursor) {
-            //    console.log(doc);
-            //}
 
             let pipeline = 
                 [
@@ -339,48 +325,60 @@ MongoClient.connect(dbUrl)
 
         app.set('view engine', 'pug');
 
-        // app.get('/register', (req, res) => {
+        app.get('/register', (req, res) => {
+            res.render('register', {
+                title: 'Register'
+            });
+        });
 
-        // });
+        app.post('/register', (req, res) => {
+            var salt = bcrypt.genSaltSync(10);
+            var hash = bcrypt.hashSync(req.body.password, salt);
+            userCollection.insertOne(
+                { 
+                    username: req.body.username, 
+                    password: hash,
+                    email: req.body.email
+                },
+                { upsert: true }
+            )
+            .then(response =>  {
+                res.send({ id: response.insertedId });
+            })
+            .catch(error => console.error(error));
+        });
 
-        // app.post('/register', (req, res) => {
-        //     var salt = bcrypt.genSaltSync(10);
-        //     var hash = bcrypt.hashSync(req.body.password, salt);
-        //     userCollection.insertOne(
-        //         { 
-        //             username: req.body.username, 
-        //             password: hash, 
-        //         },
-        //         { upsert: true }
-        //     )
-        //     .then(response =>  {
-        //         res.send({ id: response.insertedId });
-        //     })
-        //     .catch(error => console.error(error));
-        // });
+        app.get('/register.js',function(req,res){
+            res.sendFile(__dirname + '/js/register.js',{}); 
+        });
 
-        // app.get('/login', (req, res) => {
-        //     res.render('login', {
-        //         title: 'Login'
-        //     });
-        // });
+        app.get('/login', (req, res) => {
+            res.render('login', {
+                title: 'Login'
+            });
+        });
 
-        // app.post('/login', (req, res) => {
-        //     userCollection.findOne({
-        //         username: req.body.username
-        //     })
-        //     .then (response => {
-        //         if (bcrypt.compareSync(req.body.password, response.password)) {
-        //             res.send('Authenticated');
-        //             req.
-        //         }
-        //         else {
-        //             res.send('Invalid');
-        //         }
+        app.post('/login', (req, res) => {
+            userCollection.findOne({
+                username: req.body.username
+            })
+            .then (response => {
+                console.log(response);
+
+                if (response == null){
+                    res.send('User does not exist');
+                }
                 
-        //     })
-        //     .catch (error => console.error(error));
-        // });
+                if (bcrypt.compareSync(req.body.password, response.password)) {
+                    res.send('Authenticated');
+                }
+                else {
+                    res.send('Invalid');
+                }
+                
+            })
+            .catch (error => console.error(error));
+        });
 
         app.get('/login.js',function(req,res){
             res.sendFile(__dirname + '/js/login.js',{}); 
