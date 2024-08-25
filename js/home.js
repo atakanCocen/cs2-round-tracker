@@ -70,13 +70,9 @@ function showSelectionContainer(map){
 
 }
 
-function hidePreviousSelection(map){
-
-}
-
 var roundSubmitForms = document.getElementsByClassName('rounds-submit-form');
 for (roundSubmitForm of roundSubmitForms){
-    roundSubmitForm.addEventListener("submit", logSubmit);
+    roundSubmitForm.addEventListener("submit", submitMapResult);
 }
 
 function resetFormValues(){
@@ -121,31 +117,29 @@ function formValidiationAintIt(formValues) {
     return true;
   }
 
-function logSubmit(event) {
+function submitMapResult(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
-    const finalData = Object.fromEntries(data)
-    if (formValidiationAintIt(finalData)) {
+    const data = Object.fromEntries(new FormData(event.target));
+    if (formValidiationAintIt(data)) {
         fetch('/rounds-submit?' + new URLSearchParams({map: mapSelection}),
         {
             method: 'POST',
-            body: JSON.stringify(finalData),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json"
-        },
-
-    })
-    .then(res => {
-        res.json()
-        .then(data => {
-            alert('Success');
-            resetFormValues();
-            hideAllSelections();
+            },
+        })
+        .then(res => {
+            res.json()
+            .then(data => {
+                alert('Success');
+                resetFormValues();
+                hideAllSelections();
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
         });
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
     }
     else {
         console.log("NUTINNNNNN!!!!!");

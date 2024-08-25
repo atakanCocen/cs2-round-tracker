@@ -5,6 +5,7 @@ mongosh -- "$MONGO_INITDB_DATABASE" <<EOF
 console.log('Creating db');
 
 db.createCollection("$MONGO_INITDB_COLLECTION");
+db.createCollection("$MONGO_USER_COLLECTION");
 
 console.log('Completed creating db');
 console.log('Started adding users');

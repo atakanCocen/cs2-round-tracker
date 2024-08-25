@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
+var bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const app = express();
@@ -18,7 +19,8 @@ MongoClient.connect(dbUrl)
     .then(client => {
         console.log('Connected to Database');
         const db = client.db(dbName);
-        const countersCollection = db.collection(process.env.MONGO_COLLECTION);
+        const countersCollection = db.collection(process.env.COUNTER_COLLECTION);
+        //const userCollection = db.collection(process.env.USER_COLLECTION);
         
         app.post('/rounds-submit', (req, res) => {
             countersCollection.insertOne(
@@ -337,23 +339,70 @@ MongoClient.connect(dbUrl)
 
         app.set('view engine', 'pug');
 
-        app.get('/', function (req, res) {
+        // app.get('/register', (req, res) => {
+
+        // });
+
+        // app.post('/register', (req, res) => {
+        //     var salt = bcrypt.genSaltSync(10);
+        //     var hash = bcrypt.hashSync(req.body.password, salt);
+        //     userCollection.insertOne(
+        //         { 
+        //             username: req.body.username, 
+        //             password: hash, 
+        //         },
+        //         { upsert: true }
+        //     )
+        //     .then(response =>  {
+        //         res.send({ id: response.insertedId });
+        //     })
+        //     .catch(error => console.error(error));
+        // });
+
+        // app.get('/login', (req, res) => {
+        //     res.render('login', {
+        //         title: 'Login'
+        //     });
+        // });
+
+        // app.post('/login', (req, res) => {
+        //     userCollection.findOne({
+        //         username: req.body.username
+        //     })
+        //     .then (response => {
+        //         if (bcrypt.compareSync(req.body.password, response.password)) {
+        //             res.send('Authenticated');
+        //             req.
+        //         }
+        //         else {
+        //             res.send('Invalid');
+        //         }
+                
+        //     })
+        //     .catch (error => console.error(error));
+        // });
+
+        app.get('/login.js',function(req,res){
+            res.sendFile(__dirname + '/js/login.js',{}); 
+        });
+
+        app.get('/', (req, res) => {
             res.render('home', {
                 title: 'Home'
             });
         });
 
-        app.get('/home.js',function(req,res){
+        app.get('/home.js', (req,res) => {
             res.sendFile(__dirname + '/js/home.js',{}); 
         });
 
-        app.get('/stats', function (req, res) {
+        app.get('/stats', (req, res) => {
             res.render('stats', {
                 title: 'Stats'
             });
         });
 
-        app.get('/stats.js', function (req, res) {
+        app.get('/stats.js', (req, res) => {
             res.sendFile(__dirname + '/js/stats.js');
         });
         
