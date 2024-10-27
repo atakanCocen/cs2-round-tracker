@@ -18,7 +18,11 @@ loginForm.addEventListener("submit", (event) =>  {
         .then(res => {
             res.json()
             .then(data => {
-                alert('Success');
+                if (data.success){
+                    alert('Success');
+                    window.location.href = '/';
+                }
+                
             });
         })
         .catch((error) => {
