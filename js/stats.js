@@ -1,5 +1,17 @@
 const mapSelection = document.getElementById('mapSelection');
 
+const chartContainer = document.getElementById('chartContainer');
+
+const ctRound1Container = document.getElementById('ctRound1Container');
+const tRound1Container = document.getElementById('tRound1Container');
+const ctRound2Container = document.getElementById('ctRound2Container');
+const tRound2Container = document.getElementById('tRound2Container');
+const ctRound2AfterRound1WinContainer = document.getElementById('ctRound2AfterRound1WinContainer');
+const ctRound2AfterRound1Loss = document.getElementById('ctRound2AfterRound1LossContainer');
+const tRound2AfterRound1WinContainer = document.getElementById('tRound2AfterRound1WinContainer');
+const tRound2AfterRound1LossContainer = document.getElementById('tRound2AfterRound1LossContainer');
+const gameContainer = document.getElementById('gameContainer');
+
 const ctRound1Canvas = document.getElementById('ctRound1');
 const ctRound2Canvas = document.getElementById('ctRound2');
 const tRound1Canvas = document.getElementById('tRound1');
@@ -28,22 +40,84 @@ mapSelection.addEventListener("change", event => {
 });
 
 function getData() {
-    fetch('/get-stats?' + new URLSearchParams({map: mapSelection.value }), {method: 'GET'})
+    fetch('/get-stats?' + new URLSearchParams({map: mapSelection.value}), {method: 'GET'})
     .then(res => {
         res.json()
         .then(data => {
-            if (mapSelection.value == 'All'){
-                setAggregateGraphs(data);
+            console.log(data);
+            if (data === undefined || data.length == 0){
+                hideGraphs();
             }
             else {
-                setIndividualGraphs(data);
+                if (mapSelection.value == 'All'){
+                
+                    setAggregateGraphs(data);
+                }
+                else {
+                    setIndividualGraphs(data);
+                }
             }
+
             
         });
     })
     .catch((error) => {
         console.error('Error:', error);
     });
+}
+
+function hideGraphs() {
+    hideGraph('game');
+    hideGraph('ctRound1');
+    hideGraph('ctRound2');
+    hideGraph('tRound1');
+    hideGraph('tRound2'); 
+    hideGraph('ctRound2AfterRound1Win');
+    hideGraph('ctRound2AfterRound1Loss');
+    hideGraph('tRound2AfterRound1Win'); 
+    hideGraph('tRound2AfterRound1Loss'); 
+}
+
+function hideGraph(name){
+    switch(name){
+        case 'game':
+            gameChart.destroy();
+            gameContainer.hidden = true;
+            break;
+        case 'ctRound1':
+            ctRound1Chart.destroy();
+            ctRound1Container.hidden = true;
+            break;
+        case 'tRound1':
+            tRound1Chart.destroy();
+            tRound1Container.hidden = true;
+            break;
+        case 'ctRound2':
+            ctRound2Chart.destroy();
+            ctRound2Container.hidden = true;
+            break;
+        case 'tRound2':
+            tRound2Chart.destroy();
+            tRound2Container.hidden = true;
+            break;
+        case 'ctRound2AfterRound1Win':
+            ctRound2AfterRound1WinChart.destroy();
+            ctRound2AfterRound1WinContainer.hidden = true;
+            break;
+        case 'ctRound2AfterRound1Loss':
+            ctRound2AfterRound1LossChart.destroy();
+            ctRound2AfterRound1LossContainer.hidden = true;
+            break;
+        case 'tRound2AfterRound1Win':
+            tRound2AfterRound1WinChart.destroy();
+            tRound2AfterRound1WinContainer.hidden = true;
+            break;
+        case 'tRound2AfterRound1Loss':
+            tRound2AfterRound1LossChart.destroy();
+            tRound2AfterRound1LossContainer.hidden = true;
+            break;
+
+    }
 }
 
 function initializeGraphs() {
@@ -114,6 +188,13 @@ function fillAggregateGraph(canvas, data, labels) {
     });
 }
 
+
+function fillAndDisplayGraph(container, canvas, data, isAggregate, labels){
+    container.hidden = data[0] + data[1] == 0;
+    
+    return isAggregate ? fillAggregateGraph(canvas, data, labels) :  fillIndividualGraph(canvas, data);
+}
+
 function fillIndividualGraph(canvas, data){
     return new Chart(canvas, {
         type: 'doughnut',
@@ -143,6 +224,7 @@ function setAggregateGraphs(data) {
 
     for (let i = 0; i < data.length; i++){
         labels.push(`de_${data[i]._id}`);
+
         ctRound1WinPerc.push(data[i].ctRound1Win / (data[i].ctRound1Win + data[i].ctRound1Loss));
         ctRound2WinPerc.push(data[i].ctRound2Win / (data[i].ctRound2Win + data[i].ctRound2Loss));
         ctRound2AfterRound1WinPerc.push(data[i].ctRound2WinAfterRound1Win / (data[i].ctRound2WinAfterRound1Win + data[i].ctRound2LossAfterRound1Win));
@@ -168,63 +250,13 @@ function setAggregateGraphs(data) {
 function setIndividualGraphs(data) {
     initializeGraphs();
 
-    ctRound1Chart = fillIndividualGraph(ctRound1Canvas, [data[0].ctRound1Win, data[0].ctRound1Loss]);
-    ctRound2Chart = fillIndividualGraph(ctRound2Canvas, [data[0].ctRound2Win, data[0].ctRound2Loss]);
-    ctRound2AfterRound1WinChart = fillIndividualGraph(ctRound2AfterRound1WinCanvas, [data[0].ctRound2WinAfterRound1Win, data[0].ctRound2LossAfterRound1Win]);
-    ctRound2AfterRound1LossChart = fillIndividualGraph(ctRound2AfterRound1LossCanvas, [data[0].ctRound2WinAfterRound1Loss, data[0].ctRound2LossAfterRound1Loss]);
-    
-    tRound1Chart = new Chart(tRound1Canvas, {
-       type: 'doughnut',
-       data: {
-           labels: ['Win', 'Loss'],
-           datasets: [{
-               data: [data[0].tRound1Win, data[0].tRound1Loss],
-               borderWidth: 1
-           }]
-       }
-    });
-    
-    tRound2Chart = new Chart(tRound2Canvas, {
-       type: 'doughnut',
-       data: {
-           labels: ['Win', 'Loss'],
-           datasets: [{
-               data: [data[0].tRound2Win, data[0].tRound2Loss],
-               borderWidth: 1
-           }]
-       }
-    });
-
-    tRound2AfterRound1WinChart = new Chart(tRound2AfterRound1WinCanvas, {
-        type: 'doughnut',
-        data: {
-            labels: ['Win', 'Loss'],
-            datasets: [{
-                data: [data[0].tRound2WinAfterRound1Win, data[0].tRound2LossAfterRound1Win],
-                borderWidth: 1
-            }]
-        }
-    });
-
-    tRound2AfterRound1LossChart = new Chart(tRound2AfterRound1LossCanvas, {
-        type: 'doughnut',
-        data: {
-            labels: ['Win', 'Loss'],
-            datasets: [{
-                data: [data[0].tRound2WinAfterRound1Loss, data[0].tRound2LossAfterRound1Loss],
-                borderWidth: 1
-            }]
-        }
-    });
-
-    gameChart = new Chart(gameResultsCanvas, {
-        type: 'doughnut',
-        data: {
-            labels: ['Win', 'Loss'],
-            datasets: [{
-                data: [data[0].tRound2Win, data[0].tRound2Loss],
-                borderWidth: 1
-            }]
-        }
-    });
+    ctRound1Chart = fillAndDisplayGraph(ctRound1Container, ctRound1Canvas, [data[0].ctRound1Win, data[0].ctRound1Loss], false);
+    ctRound2Chart = fillAndDisplayGraph(ctRound2Container, ctRound2Canvas, [data[0].ctRound2Win, data[0].ctRound2Loss], false);
+    ctRound2AfterRound1WinChart = fillAndDisplayGraph(ctRound2AfterRound1WinContainer, ctRound2AfterRound1WinCanvas, [data[0].ctRound2WinAfterRound1Win, data[0].ctRound2LossAfterRound1Win], false);
+    ctRound2AfterRound1LossChart = fillAndDisplayGraph(ctRound2AfterRound1LossContainer, ctRound2AfterRound1LossCanvas, [data[0].ctRound2WinAfterRound1Loss, data[0].ctRound2LossAfterRound1Loss], false);
+    tRound1Chart = fillAndDisplayGraph(tRound1Container, tRound1Canvas, [data[0].tRound1Win, data[0].tRound1Loss], false);
+    tRound2Chart = fillAndDisplayGraph(tRound2Container, tRound2Canvas, [data[0].tRound2Win, data[0].tRound2Loss], false);
+    tRound2AfterRound1WinChart = fillAndDisplayGraph(tRound2AfterRound1WinContainer, tRound2AfterRound1WinCanvas, [data[0].tRound2WinAfterRound1Win, data[0].tRound2LossAfterRound1Win], false);
+    tRound2AfterRound1LossChart = fillAndDisplayGraph(tRound2AfterRound1LossContainer, tRound2AfterRound1LossCanvas, [data[0].tRound2WinAfterRound1Loss, data[0].tRound2LossAfterRound1Loss], false);
+    gameChart = fillAndDisplayGraph(gameContainer, gameResultsCanvas, [data[0].gamesWon, data[0].gamesLost], false);
 }

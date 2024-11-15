@@ -20,35 +20,35 @@ html
                             when 'Home'
                                 li(class='current')
                                     a(href='/') Home 
-                                li 
+                                li
                                     a(href='/stats') Stats
                                 li
-                                    a(href='#') Dropdown
+                                    a(href='#') Account
                                     ul 
                                         li 
-                                            a(href='#') tes
-                                            a(href='#') tin
+                                            a(href='#logout') Edit Profile
+                                            a(href='/logout') Logout
                             when 'Stats'
                                 li
                                     a(href='/') Home 
                                 li(class='current')
                                     a(href='/stats') Stats
                                 li
-                                    a(href='#') Dropdown
+                                    a(href='#') Account
                                     ul 
                                         li 
-                                            a(href='#') tes
-                                            a(href='#') tin
+                                            a(href='#logout') Edit Profile
+                                            a(href='/logout') Logout
                             default 
-                                li
+                                li(class='current')
                                     a(href='/') Home 
                                 li 
                                     a(href='/stats') Stats
-                                li(class='current')
-                                    a(href='#') Dropdown
+                                li
+                                    a(href='#') Account
                                     ul 
                                         li 
-                                            a(href='#') tes
-                                            a(href='#') tin
+                                            a(href='#logout') Edit Profile
+                                            a(href='/logout') Logout
 
         block content
