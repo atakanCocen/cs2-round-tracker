@@ -324,7 +324,32 @@ async function getStatsForUser(username, map){
     
 }
 
-async function retrieveUser (username) {
+async function createUser(username, password, email) {
+    return new Promise(function (resolve, reject) {
+        MongoClient.connect(dbUrl)
+            .then(client => {
+                
+                console.log('Connected to Database');
+                const db = client.db(dbName);
+                const userCollection = db.collection(process.env.USER_COLLECTION);
+
+                userCollection.insertOne(
+                    { 
+                        username: username, 
+                        password: password,
+                        email: email
+                    },
+                    { upsert: true }
+                )
+                .then(response =>  {
+                    resolve(response);
+                })
+                .catch(error => console.error(error));
+            });
+      });
+}
+
+async function retrieveUser(username) {
     return new Promise(function (resolve, reject) {
         MongoClient.connect(dbUrl)
             .then(client => {
@@ -347,5 +372,5 @@ async function retrieveUser (username) {
     
 };
 
-module.exports = {addMatchResult, getStatsForUser, retrieveUser};
+module.exports = {addMatchResult, getStatsForUser, createUser, retrieveUser};
 

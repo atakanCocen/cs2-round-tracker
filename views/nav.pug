@@ -1,0 +1,39 @@
+extends default 
+
+block nav 
+    nav(id='nav')
+        ul 
+            case title 
+                when 'Home'
+                    li(class='current')
+                        a(href='/') Home 
+                    li
+                        a(href='/stats') Stats
+                    li
+                        a(href='#') Account
+                        ul 
+                            li 
+                                a(href='#logout') Edit Profile
+                                a(href='/logout') Logout
+                when 'Stats'
+                    li
+                        a(href='/') Home 
+                    li(class='current')
+                        a(href='/stats') Stats
+                    li
+                        a(href='#') Account
+                        ul 
+                            li 
+                                a(href='#logout') Edit Profile
+                                a(href='/logout') Logout
+                default 
+                    li(class='current')
+                        a(href='/') Home 
+                    li 
+                        a(href='/stats') Stats
+                    li
+                        a(href='#') Account
+                        ul 
+                            li 
+                                a(href='#logout') Edit Profile
+                                a(href='/logout') Logout

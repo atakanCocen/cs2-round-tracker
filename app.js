@@ -30,10 +30,11 @@ app.get('/login', (req, res) => {
     }
     else {
         res.render('login', {
-            title: 'Login'
+            title: 'Login/Register'
         });
     }
 });
+
 
 app.post('/login', (req, res) => {
     db.retrieveUser(req.body.username)
@@ -64,6 +65,29 @@ app.post('/login', (req, res) => {
     .catch (error => console.error(error));
 });
 
+app.post('/register', (req, res) => {
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(req.body.password, salt);
+    
+    db.createUser(req.body.username, hash, req.body.email)
+        .then(response => {
+            const token = jwt.sign({ userId: req.body.username }, 'your-secret-key', {
+                expiresIn: '1h',
+            });
+
+            res.cookie('token', token, { 
+                httpOnly: true, 
+                secure: true, 
+                sameSite: 'strict' ,
+                maxAge: 1000 * 60 * 30
+            });
+            
+            res.json({ success: true,  message: 'User successfully registered' });
+
+        })
+        .catch(error => console.error(error));
+});
+
 app.get('/login.js',function(req,res){
     res.sendFile(__dirname + '/js/login.js',{}); 
 });
@@ -84,9 +108,11 @@ app.get('/', (req, res) => {
     }
 });
 
+
 app.get('/home.js', (req,res) => {
     res.sendFile(__dirname + '/js/home.js',{}); 
 });
+
 
 app.get('/stats', (req, res) => {
     if (req.cookies.token == undefined || !verifyToken(req.cookies.token, 'your-secret-key')){
@@ -99,9 +125,11 @@ app.get('/stats', (req, res) => {
     }
 });
 
- app.get('/stats.js', (req, res) => {
-     res.sendFile(__dirname + '/js/stats.js');
- });
+
+app.get('/stats.js', (req, res) => {
+    res.sendFile(__dirname + '/js/stats.js');
+});
+
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
@@ -129,6 +157,7 @@ app.post('/rounds-submit', (req, res) => {
     .catch(error => console.error(error));        
 });
 
+
 app.get('/get-stats', (req, res) => {
     let decodedToken = getDecodedToken(req.cookies.token, 'your-secret-key');
     db.getStatsForUser(decodedToken.userId, req.query.map)
@@ -138,40 +167,3 @@ app.get('/get-stats', (req, res) => {
     .catch(error => console.error(error));
 });
 
-        
-
-
-//         app.get('/register', (req, res) => {
-//             res.render('register', {
-//                 title: 'Register'
-//             });
-//         });
-
-//         app.post('/register', (req, res) => {
-//             var salt = bcrypt.genSaltSync(10);
-//             var hash = bcrypt.hashSync(req.body.password, salt);
-//             userCollection.insertOne(
-//                 { 
-//                     username: req.body.username, 
-//                     password: hash,
-//                     email: req.body.email
-//                 },
-//                 { upsert: true }
-//             )
-//             .then(response =>  {
-//                 res.send({ id: response.insertedId });
-//             })
-//             .catch(error => console.error(error));
-//         });
-
-//         app.get('/register.js',function(req,res){
-//             res.sendFile(__dirname + '/js/register.js',{}); 
-//         });
-
-//         
-
-//         
-
-//         
-//     })
-//     .catch(console.error);

@@ -1,14 +1,31 @@
-html 
-    head 
-        meta(charset='UTF-8')
-        meta(name='viewport' content='width=device-width, initial-scale=1, user-scalable=no')
-        title=title 
-        link(rel='stylesheet' type='text/css' href='assets/css/main.css')
-    body(class='is preload homepage')
-        #page-wrapper
-        form(id='loginForm' action='/login' method='post')
-            input(type='text' name='username')
-            input(type='password' name='password')
-            input(type='submit')
+extends default
+    
+block content
+    #features-wrapper
+        .container.box
+            #selectionContainer
+                a(class='loginSelection' href='#') Login
+                a(class='registerSelection' href='#') Register
+            #loginContainer
+                form(id='loginForm' action='/login' method='post')
+                    label Username
+                    input(type='text' name='username')
+                    label Password
+                    input(type='password' name='password')
+                    input(type='submit')
+                    p Don't Have an Account Yet? 
+                        a(class='registerSelection' href='#') Register
+            #registerContainer
+                form(id='registerForm' action='/register' method='post')
+                    label Email
+                    input(type='email' name='email')
+                    label Username
+                    input(type='text' name='username')
+                    label Password
+                    input(type='password' name='password')
+                    input(type='submit')
+                    p Already Have an Account? 
+                        a(class='loginSelection' href='#') Login
 
-        script(src='login.js' type='text/javascript')
+block foot
+    script(src='login.js' type='text/javascript')

@@ -1,54 +1,20 @@
 doctype html 
 
 html 
-    head 
+    block head 
         meta(charset='UTF-8')
         meta(name='viewport' content='width=device-width, initial-scale=1, user-scalable=no')
         title=title 
         link(rel='stylesheet' type='text/css' href='assets/css/main.css')
     body(class='is preload homepage')
-        #page-wrapper
         #header-wrapper 
             header(id='header' class='container')
                 #logo 
                     h1 
                         a(href='/') cs2
                     span round tracker
-                nav(id='nav')
-                    ul 
-                        case title 
-                            when 'Home'
-                                li(class='current')
-                                    a(href='/') Home 
-                                li
-                                    a(href='/stats') Stats
-                                li
-                                    a(href='#') Account
-                                    ul 
-                                        li 
-                                            a(href='#logout') Edit Profile
-                                            a(href='/logout') Logout
-                            when 'Stats'
-                                li
-                                    a(href='/') Home 
-                                li(class='current')
-                                    a(href='/stats') Stats
-                                li
-                                    a(href='#') Account
-                                    ul 
-                                        li 
-                                            a(href='#logout') Edit Profile
-                                            a(href='/logout') Logout
-                            default 
-                                li(class='current')
-                                    a(href='/') Home 
-                                li 
-                                    a(href='/stats') Stats
-                                li
-                                    a(href='#') Account
-                                    ul 
-                                        li 
-                                            a(href='#logout') Edit Profile
-                                            a(href='/logout') Logout
-
-        block content
+        
+                block nav
+        #page-wrapper
+            block content
+        block foot

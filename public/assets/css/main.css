@@ -2226,4 +2226,18 @@ ul.menu li:first-child {
   }
 }
 
+#selectionContainer {
+  width: 400px;
+  height: 200px;
+  display: block;
+}
+
+#registerContainer, #loginContainer {
+  display: none;
+
+  .live {
+    display: block;
+  }
+}
+
 /*# sourceMappingURL=main.css.map */
